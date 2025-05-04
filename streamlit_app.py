@@ -45,7 +45,7 @@ def get_movie_data():
             SELECT 
                 movie_id,
                 title,
-                YEAR as year,
+                CAST(EXTRACT(YEAR FROM strptime(YEAR, '%b %d %Y')) AS INTEGER) as year,
                 rating,
                 votes,
                 runtime,
