@@ -5,6 +5,9 @@ duckdb>=0.9.2
 pandas>=2.0.0
 streamlit>=1.31.0
 
+# Visualization
+plotly>=6.0.1
+
 # Additional utilities
 dbt_duckdb_utils>=0.1.1
 python-dotenv>=1.0.0 
