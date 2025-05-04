@@ -18,7 +18,7 @@ def get_connection():
         "database",
         "imdb_movies.duckdb",
     )
-    return duckdb.connect(db_path)
+    return duckdb.connect(db_path, read_only=True)
 
 
 # Query the database

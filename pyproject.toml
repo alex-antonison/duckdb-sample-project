@@ -8,6 +8,7 @@ dependencies = [
     "dbt-duckdb>=1.9.3",
     "duckdb>=1.2.2",
     "streamlit>=1.45.0",
+    "watchdog>=6.0.0",
 ]
 
 [dependency-groups]
