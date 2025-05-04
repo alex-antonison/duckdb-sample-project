@@ -16,8 +16,7 @@ st.title("🎬 IMDb Movies Analysis")
 def get_connection():
     db_path = os.path.join(
         os.path.dirname(__file__),
-        "dbt_imdb",
-        "imdb_movies",
+        "dbt_imdb_duckdb",
         "database",
         "imdb_movies.duckdb",
     )
