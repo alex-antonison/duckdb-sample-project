@@ -72,9 +72,6 @@ filtered_df = df[
     (df["year"].between(year_range[0], year_range[1])) & (df["rating"] >= min_rating)
 ]
 
-# Show filtered data sample
-st.write("Filtered data sample:", filtered_df)
-
 # Top statistics
 st.subheader("Movie Statistics")
 col1, col2, col3, col4 = st.columns(4)
