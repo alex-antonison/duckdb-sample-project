@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: imdb
+    database: imdb_movies
+    schema: public
+    tables:
+      - name: movies
+        description: "IMDb movies dataset containing movie information"
+        columns:
+          - name: movie_id
+            description: "Unique identifier for the movie"
+          - name: title
+            description: "Title of the movie"
+          - name: year
+            description: "Release year of the movie"
+          - name: rating
+            description: "IMDb rating of the movie"
+          - name: votes
+            description: "Number of votes received"
+          - name: runtime
+            description: "Duration of the movie in minutes"
+          - name: genres
+            description: "List of genres the movie belongs to"

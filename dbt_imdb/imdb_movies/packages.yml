@@ -1,0 +1,3 @@
+packages:
+  - package: sdebruyn/dbt_duckdb_utils
+    version: 0.1.1
