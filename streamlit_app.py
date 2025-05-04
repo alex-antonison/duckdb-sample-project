@@ -1,9 +1,8 @@
-import streamlit as st
-import duckdb
 import os
+
+import duckdb
 import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import streamlit as st
 
 # Set page config
 st.set_page_config(page_title="IMDb Movies Analysis", page_icon="🎬", layout="wide")
@@ -29,7 +28,7 @@ def get_movie_data():
     conn = get_connection()
     try:
         return conn.execute("""
-            SELECT 
+            SELECT
                 movie_id,
                 title,
                 CAST(EXTRACT(YEAR FROM strptime(YEAR, '%b %d %Y')) AS INTEGER) as year,
