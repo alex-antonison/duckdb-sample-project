@@ -31,8 +31,8 @@ def get_movie_data():
             SELECT
                 movie_id,
                 title,
-                CAST(EXTRACT(YEAR FROM strptime(YEAR, '%b %d %Y')) AS INTEGER) as year,
-                year AS movie_date,
+                release_date,
+                release_year,
                 rating,
                 votes,
                 runtime,
@@ -52,10 +52,14 @@ st.write("DataFrame columns:", df.columns.tolist())
 
 # Sidebar filters
 st.sidebar.header("Filters")
-min_year = int(df["year"].min()) if not df["year"].isna().all() else 1900
-max_year = int(df["year"].max()) if not df["year"].isna().all() else 2024
+min_year = (
+    int(df["release_year"].min()) if not df["release_year"].isna().all() else 1900
+)
+max_year = (
+    int(df["release_year"].max()) if not df["release_year"].isna().all() else 2024
+)
 year_range = st.sidebar.slider(
-    "Select Year Range",
+    "Select Release Year Range",
     min_value=min_year,
     max_value=max_year,
     value=(min_year, max_year),
@@ -67,7 +71,8 @@ min_rating = st.sidebar.slider(
 
 # Apply filters
 filtered_df = df[
-    (df["year"].between(year_range[0], year_range[1])) & (df["rating"] >= min_rating)
+    (df["release_year"].between(year_range[0], year_range[1]))
+    & (df["rating"] >= min_rating)
 ]
 
 # Top statistics
@@ -96,14 +101,14 @@ fig_scatter = px.scatter(
     filtered_df,
     x="runtime",
     y="rating",
-    color="year",
+    color="release_year",
     size="votes",
     hover_data=["title"],
-    title="Movie Ratings by Runtime and Year",
+    title="Movie Ratings by Runtime and Release Year",
     labels={
         "runtime": "Runtime (minutes)",
         "rating": "IMDb Rating",
-        "year": "Release Year",
+        "release_year": "Release Year",
     },
 )
 st.plotly_chart(fig_scatter, use_container_width=True)
@@ -112,10 +117,10 @@ st.plotly_chart(fig_scatter, use_container_width=True)
 st.subheader("Rating Distribution Over Time")
 fig_rating = px.box(
     filtered_df,
-    x="year",
+    x="release_year",
     y="rating",
-    title="Rating Distribution by Year",
-    labels={"year": "Release Year", "rating": "IMDb Rating"},
+    title="Rating Distribution by Release Year",
+    labels={"release_year": "Release Year", "rating": "IMDb Rating"},
 )
 st.plotly_chart(fig_rating, use_container_width=True)
 
@@ -128,8 +133,8 @@ st.dataframe(
     column_config={
         "movie_id": None,  # Hide movie_id column
         "title": "Title",
-        "year": "Year",
-        "movie_date": "Release Date",
+        "release_year": "Release Year",
+        "release_date": "Release Date",
         "rating": st.column_config.NumberColumn(
             "Rating", format="%.1f", help="IMDb Rating (0-10)"
         ),

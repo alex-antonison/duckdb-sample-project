@@ -5,7 +5,7 @@
 WITH movie_stats AS (
 
     SELECT
-        year,
+        release_year,
         COUNT(*) AS total_movies,
         AVG(rating) AS avg_rating,
         AVG(votes) AS avg_votes,
@@ -13,11 +13,11 @@ WITH movie_stats AS (
     FROM
         {{ ref('stg_movies') }}
     GROUP BY
-        year
+        release_year
 )
 
 SELECT
-    year,
+    release_year,
     total_movies,
     ROUND(
         avg_rating,
@@ -34,4 +34,4 @@ SELECT
 FROM
     movie_stats
 ORDER BY
-    year DESC
+    release_year DESC
