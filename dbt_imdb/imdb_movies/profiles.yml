@@ -5,8 +5,3 @@ imdb_movies:
       type: duckdb
       path: database/imdb_movies.duckdb
       threads: 4
-
-    prod:
-      type: duckdb
-      path: database/prod.duckdb
-      threads: 4
