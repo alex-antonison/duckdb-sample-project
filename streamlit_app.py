@@ -29,23 +29,12 @@ def get_connection():
 def get_movie_data():
     conn = get_connection()
     try:
-        # First, let's see what tables we have
-        tables_df = conn.execute("SHOW TABLES").fetchdf()
-        st.write("Available tables:", tables_df)
-
-        # Then, let's see the structure of our table
-        schema_df = conn.execute("DESCRIBE stg_movies").fetchdf()
-        st.write("Table structure:", schema_df)
-
-        # Finally, get a sample of data to see actual values
-        sample_df = conn.execute("SELECT * FROM stg_movies LIMIT 5").fetchdf()
-        st.write("Sample data:", sample_df)
-
         return conn.execute("""
             SELECT 
                 movie_id,
                 title,
                 CAST(EXTRACT(YEAR FROM strptime(YEAR, '%b %d %Y')) AS INTEGER) as year,
+                year AS movie_date,
                 rating,
                 votes,
                 runtime,
@@ -62,14 +51,6 @@ df = get_movie_data()
 
 # Debug: Print column names
 st.write("DataFrame columns:", df.columns.tolist())
-
-# Wait for data inspection before proceeding
-if "year" not in df.columns:
-    st.error(
-        "Column 'year' not found in the data. Available columns: "
-        + ", ".join(df.columns.tolist())
-    )
-    st.stop()
 
 # Sidebar filters
 st.sidebar.header("Filters")
@@ -90,6 +71,9 @@ min_rating = st.sidebar.slider(
 filtered_df = df[
     (df["year"].between(year_range[0], year_range[1])) & (df["rating"] >= min_rating)
 ]
+
+# Show filtered data sample
+st.write("Filtered data sample:", filtered_df)
 
 # Top statistics
 st.subheader("Movie Statistics")
@@ -150,6 +134,7 @@ st.dataframe(
         "movie_id": None,  # Hide movie_id column
         "title": "Title",
         "year": "Year",
+        "movie_date": "Release Date",
         "rating": st.column_config.NumberColumn(
             "Rating", format="%.1f", help="IMDb Rating (0-10)"
         ),
