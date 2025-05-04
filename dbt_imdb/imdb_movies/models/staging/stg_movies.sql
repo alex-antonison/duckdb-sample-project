@@ -7,7 +7,7 @@ WITH source_data AS (
     SELECT
         *
     FROM
-        read_csv_auto('https://raw.githubusercontent.com/vega/vega-datasets/next/data/movies.json')
+        read_json_auto('https://raw.githubusercontent.com/vega/vega-datasets/next/data/movies.json')
 )
 SELECT
     ROW_NUMBER() over () AS movie_id,
