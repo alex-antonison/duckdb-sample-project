@@ -1,0 +1,45 @@
+name: Update DuckDB Database
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "dbt_imdb_duckdb/models/**"
+      - "dbt_imdb_duckdb/dbt_project.yml"
+
+jobs:
+  update-database:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-duckdb==1.9.3
+
+      - name: Run dbt
+        working-directory: ./dbt_imdb_duckdb
+        run: |
+          dbt deps
+          dbt run --profiles-dir .
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add dbt_imdb_duckdb/database/imdb_movies.duckdb
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update DuckDB database [skip ci]" && git push)

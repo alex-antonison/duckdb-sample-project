@@ -1,0 +1,2 @@
+# Track the DuckDB database file
+!imdb_movies.duckdb
