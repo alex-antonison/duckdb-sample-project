@@ -103,7 +103,7 @@ fig_scatter = px.scatter(
     y="rating",
     color="release_year",
     size="votes",
-    hover_data=["title"],
+    hover_data=["Title"],
     title="Movie Ratings by Runtime and Release Year",
     labels={
         "runtime": "Runtime (minutes)",
