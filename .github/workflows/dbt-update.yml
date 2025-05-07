@@ -1,11 +1,7 @@
 name: Update DuckDB Database
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "dbt_imdb_duckdb/models/**"
-      - "dbt_imdb_duckdb/dbt_project.yml"
+  workflow_dispatch:
 
 jobs:
   update-database:
